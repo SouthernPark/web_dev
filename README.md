@@ -7,9 +7,9 @@ The source code of this project is in directory web_dev.
 
 However, you can use web_dev_war_exploded.war rather than the source code for convenient.  
 
-How to deploy our project offline(in your computer) is specified in video link.pdf on vital.  
+How to deploy our project offline(in your computer) is specified in video link.pdf on Vital.  
 
-How to use our system is described in the manuals.  
+How to use our system is described in the manuals on Vital.  
 
 
 Cheer.  
