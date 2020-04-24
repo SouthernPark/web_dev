@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="renderer" content="webkit">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<title>E-Application</title>
+
+		<link rel="stylesheet" type="text/css" href="css/onlinebusinesshall/newexpand/css/index-debug.css">
+		<link rel="stylesheet" type="text/css" href="css/index.css">
+		<link rel="stylesheet" type="text/css" href="static/lib/jquery-step/css/jquery.step.css">
+
+		<meta charset="UTF-8" />
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<title>Apply For Service</title>
+		<link rel="stylesheet" href="./layui/css/layui.css" />
+		<link rel="stylesheet" href="./css/admin.css" />
+		<script src="./lib/vue.js"></script>
+		<script src="./lib/vue-resource.js"></script>
+		<div id="head" class="container clear">
+			<ul class="layui-nav" style="text-align:right">
+				<!-- go to index.jsp -->
+				<!-- tool bar without index -->
+				<li class="layui-nav-item">
+					<a href="residentPage.html">HOME</a></li>
+				<!-- tool bar with two index -->
+				<li class="layui-nav-item">
+					<a>ABOUT US</a>
+					<dl class="layui-nav-child">
+						<dd><a href="aboutus.html">WHO WE ARE</a></dd>
+					</dl>
+				</li>
+				<!-- another tool bar -->
+				<li class="layui-nav-item" >
+					<a href="http://localhost:8080/web_dev_war_exploded/residentLoginServlet?method=logout
+">LOG OUT</a></li>
+			</ul>
+		</div>
+	</head>
+	<body>
+		<div class="step-body" id="myStep">
+
+			<div class="step-header" style="width:80%">
+				<ul>
+					<li>
+						<p>Instruction</p>
+					</li>
+					<li>
+						<p>Apply Service </p>
+					</li>
+					<li>
+						<p>Finish</p>
+					</li>
+				</ul>
+			</div>
+			<div class="step-content">
+				<div class="step-list">
+					<div class="page-panel-title">
+						<h3 class="page-panel-title-left">Process Instruction</h3>
+					</div>
+					<div class="intro-flow">
+						<div class="intro-list">
+							<div class="intro-list-left">
+								Submit application(Emergency services)
+							</div>
+							<div class="intro-list-right">
+								<span>1</span>
+								<div class="intro-list-content">
+									Emergency services: Emergency service vehicles are on call.
+								</div>
+							</div>
+						</div>
+
+
+						<div class="intro-list intro-list-active">
+							<div class="intro-list-left">
+								Accept your application
+							</div>
+							<div class="intro-list-right">
+								<span>2</span>
+								<div class="intro-list-content">
+									We will supply the service in time.
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="footer-btn">
+						<div class="common-btn">
+							<a href="javascript:void(0);" id="applyBtn">Applying now</a>
+						</div>
+					</div>
+				</div>
+				<div class="step-list" id='app'>
+					<form action="mysuperscript.php" autocomplete="on" method="POST">
+						<div class="footer-btn">
+							<div class="common-btn">
+								
+								<input type="button" type="submit" id="submitBtn" value="submit" @click.prevent="submit" />
+								
+							</div>
+						</div>
+					</form>
+
+				</div>
+				<div class="step-list">
+					<div class="apply-finish">
+						<div class="apply-finish-header">
+							<img src="images/success.png">
+							<div class="apply-finish-msg">Submit successfully!</div>
+						</div>
+						<div class="apply-finish-footer">
+							<p><a href="residentPage.html">Home Page</a></p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+		<script>
+			var vm = new Vue({
+				el: '#app',
+				
+				methods:{
+					submit(){
+						this.$http.get('http://localhost:8080/web_dev_war_exploded/serviceSQLServlet?method=insertService').then(result =>{
+
+						})
+						this.$http.get('http://localhost:8080/web_dev_war_exploded/billSQLServlet?method=insert').then(result => {
+						
+						})
+					}
+				}
+			})
+			
+			
+		</script>
+
+		<script src="static/lib/jquery/1.8/jquery.min.js"></script>
+		<script src="static/lib/jquery-step/js/jquery.step.js"></script>
+		<script>
+			$(function() {
+
+				var step = $("#myStep").step({
+					animate: true,
+					initStep: 1,
+					speed: 1000
+				});
+
+
+				$("#preBtn").click(function(event) {
+					var yes = step.preStep();
+
+				});
+				$("#applyBtn").click(function(event) {
+					var yes = step.nextStep();
+
+				});
+				$("#submitBtn").click(function(event) {
+					var yes = step.nextStep();
+					
+
+				});
+				$("#goBtn").click(function(event) {
+					var yes = step.goStep(3);
+
+				});
+
+
+
+
+			});
+		</script>
+
+		<script type="text/javascript" src="./layui/layui.js"></script>
+
+		<script>
+			layui.use(['jquery', 'form', 'layer', 'laypage', 'element'], function() {
+				var $ = layui.jquery,
+					laydate = layui.laydate,
+					layer = layui.layer,
+					laypage = layui.laypage,
+					element = layui.element();
+
+			});
+		</script>
+
+	</body>
+</html>

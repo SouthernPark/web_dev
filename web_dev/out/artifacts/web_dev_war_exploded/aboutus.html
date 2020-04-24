@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>About us</title>
+	<link rel="stylesheet" href="css/bootstrap4/css/bootstrap.css" />
+	<link rel="stylesheet" href="css/contactUs.css" />
+
+</head>
+<body>
+
+	<div class="c-nav">
+		<div class="container navFlex">
+			<!-- <div class="itemflex">
+				<img class="logo" src="img/contactUs/myLogo.png" />
+			</div> -->
+			<div class="itemflex hiden">
+				<img class="btnImg" src="img/contactUs/navBtn.png" />
+			</div>
+			<div class="itemflex show">
+				<ul>
+				<a href="residentPage.html" style="color: rgb(250, 245, 245);">Home Page</a>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- banner -->
+	<div class="c-banner">
+		<div class="banner">
+			<img src="img/contactUs/bg2.jpg" />
+		</div>
+	</div>
+	<!-- 当前页面位子 -->
+	<!-- <div class="c-position">
+		<div class="container content">
+			<img src="img/contactUs/position.png" /> 当前位置>>联系我们-公司概况
+		</div>
+	</div> -->
+	<!-- 简介 -->
+	<div class="c-survey">
+		<div class="container">
+			<!-- 标题 -->
+			<div class="titleFle">
+				<!-- <div class="fleItem">
+					<span class="leftFont">W</span>
+				</div> -->
+				<div class="fleItem">
+					<br></br>
+					<span class="chinaese">ABOUT US</span>
+				</div>
+			</div>
+			<!-- 我们是谁 -->
+			<div class="row how">
+				<div class="col-md-7 word">
+					<div class="title">
+						<h1>Who we are?</h1>
+						<span>We are always on the way and never stop</span>
+					</div>
+					<div class="content">
+						Waste M-Man is a service company,which concentrates on waste management. It provides the service to help residents deal with trash in time by providing optimized routes to the driver.
+					</div>
+				</div>
+				<div class="col-md-5 pic">
+					<img src="img/contactUs/surveyPic1.png" />
+				</div>
+			</div>
+			<!-- 我们能做什么 -->
+			<div class="row can">
+				<div class="col-md-7 word">
+					<div class="title">
+						<h1>What we can offer?</h1>
+						<span>The service we provide</span>
+					</div>
+					<div class="content">
+						The purpose of the Waste Management system is to collect, manage and control access to the data that supports waste collection conducted by Liverpool City Council for residents, and to improve the efficiency of waste collection by providing optimized collection routes for drivers, an easy way to book waste management service for local residents and an efficient approach to manage those process for managers.
+					</div>
+				</div>
+				<div class="col-md-5 pic">
+					<img src="img/contactUs/surveyPic2.png" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 联系我们 -->
+	<div class="c-contactUs">
+		<div class="container">
+			<!-- 标题 -->
+			<div class="titleFle">
+				<div class="fleItem">
+				</div>
+				<div class="fleItem">
+<!--					<span class="english">Contact us</span>-->
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6 contact">
+					<ul>
+						<li>
+							<img src="img/contactUs/phone.png" />
+							<div class="info">
+								<span>Service hotline</span>
+								<span>12345678910</span>
+							</div>
+						</li>
+						<li>
+							<img src="img/contactUs/e-mail.png" />
+							<div class="info">
+								<span>E-mail</span>
+								<span>12345677@qq.com</span>
+							</div>
+						</li>
+						<li>
+							<img src="img/contactUs/fax.png" />
+							<div class="info">
+								<span>Fax</span>
+								<span>1234-12345678</span>
+							</div>
+						</li>
+						<li>
+							<img src="img/contactUs/address.png" />
+							<div class="info">
+								<span>Postcode</span>
+								<span>LC1 7PQ</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="col-sm-6 message">
+					<form>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 版权信息 -->
+	<div class="c-bottom">
+		<div class="container">
+			<div class="copyright">
+				<p><span>Author:team47</span> <span class="phoneApp">phone number：***********</span></p>
+			</div>
+		</div>
+	</div>
+	
+	<script src="js/jquery.min.js"></script>
+	<script src="css/bootstrap4/js/bootstrap.js"></script>
+
+	<script>
+		//用于判断导航栏的状态
+		var toggle = true;
+		//导航栏最后一个li的边框去除
+		$(".c-nav ul li:last").css("border", "none");
+		//导航栏按钮
+		$('.btnImg').click(function() {
+			if (toggle) {
+				$('.btnImg').css("border", "1px solid #b0ccf3");
+				toggle = false
+			} else {
+				$('.btnImg').css("border", "1px solid transparent");
+				toggle = true;
+			}
+			$(".show").slideToggle(300);
+		})
+	
+		//窗口大小发生改变
+		$(window).resize(function() {
+			//获取窗口宽度
+			var windSize = $(window).width();
+			if (windSize > 576) {
+				$(".show").slideDown(0);
+			} else {
+				$(".show").slideUp(0);
+			}
+		});
+	</script>
+
+</body>	
+</html>

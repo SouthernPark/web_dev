@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<title>Bill Table</title>
+		<link rel="stylesheet" href="./layui/css/layui.css" />
+		<link rel="stylesheet" href="./css/main.css" />
+		<link rel="stylesheet" href="./css/admin.css" />
+		<script src="./lib/vue.js"></script>
+		<link rel="stylesheet" href="./lib/bootstrap.css" />
+		<script src="./lib/vue-resource.js"></script>
+		<div id="head" class="container clear">
+			<ul class="layui-nav" style="text-align:right">
+				<!-- go to index.jsp -->
+				<!-- tool bar without index -->
+				<li class="layui-nav-item">
+					<a href="service.html">HOME</a></li>
+				<!-- tool bar with two index -->
+				<!-- another tool bar -->
+				<li class="layui-nav-item" lay-unselect="">
+					<a>TABLE</a>
+					<dl class="layui-nav-child">
+						<dd><a href="service.html">service</a></dd>
+						<dd><a href="bill.html">bill</a></dd>
+						<dd><a href="resident.html">resident</a></dd>
+						<dd><a href="staff.html">staff</a></dd>
+						<dd><a href="vehicle.html">vehicle</a></dd>
+						<dd><a href="driver.html">driver</a></dd>
+					</dl>
+				</li>
+				<li class="layui-nav-item" >
+					<a href="http://localhost:8080/web_dev_war_exploded/managerLoginServlet?method=logout">LOG OUT</a></li>
+			</ul>
+		</div>
+	</head>
+	<body>
+
+
+
+		<div id="app">
+
+			<div>
+				<div >
+					<h1><i>bill</i></h1><br/>
+				</div>
+				<div>
+					<label>
+						Search:
+						<input type="text" class="form-control" v-model="keyWords" v-focus v-color="'blue'" />
+					</label>
+				</div>
+
+			</div>
+
+			<table class="layui-table" lay-skin="line">
+				<thead>
+					<tr>
+						<th>billNo</th>
+						<th>amount</th>
+						<th>serviceID</th>
+						<th>operation</th>
+					</tr>
+					<tr v-for="item in search(keyWords)" :key="item.billNo">
+						<td>{{item.billNo}}</td>
+						<td>{{item.amount}}</td>
+						<td>{{item.serviceID}}</td>
+						<td>
+							<a href="" @click.prevent="del(item.billNo)">delete</a>
+						</td>
+
+					</tr>
+
+				</thead>
+			</table>
+
+		</div>
+
+		<script>
+			Vue.directive('focus', {
+				bind: function(el) { 
+					
+				},
+
+				inserted: function(el) { 
+					el.focus()
+				},
+
+				updated: function(el) { 
+
+				}
+
+			})
+
+			
+			Vue.directive('color', {
+				
+				bind: function(el, binding) {
+					el.style.color = binding.value
+				}
+			})
+
+
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					billNo:'',
+					amount:'',
+					serviceID:'',
+					keyWords:'',
+					list: [
+						{ billNo: 1, amount: '30', serviceID: 2},
+						{ billNo: 2, amount: '30', serviceID: 1},
+						{ billNo: 3, amount: '40', serviceID: 3},
+						{ billNo: 4, amount: '40', serviceID: 4}
+					]
+				},
+				
+				created() {
+					this.getAllList()
+				},
+				
+				methods: {
+
+					search(keyWords) {
+
+						var newList = []
+						this.list.forEach(item => {
+							if ( keyWords === '' || item.serviceID == keyWords || item.billNo == keyWords) {
+								newList.push(item)
+							}
+							
+						})
+						return newList
+
+					},
+					
+					getAllList(){
+						this.$http.get('http://localhost:8080/web_dev_war_exploded/billSQLServlet?method=selectAll').then(result=>{
+							if(result.body.status === 0){
+								this.list = result.body.message
+							}else{
+								alert('Data acquisition failure!')
+							}
+						})
+					},
+					
+					del(id){
+						this.$http.get('http://localhost:8080/web_dev_war_exploded/billSQLServlet?method=delete&?billNo='+id).then(result=>{
+							if(results.body.status === 0){
+								this.getAllList()
+							}else{
+								alert("delete failure!")
+							}
+						})
+					}
+				}
+			})
+		</script>
+		<script type="text/javascript" src="./layui/layui.js"></script>
+		
+		<script>
+			layui.use(['jquery', 'form', 'layer', 'laypage', 'element'], function() {
+				var $ = layui.jquery,
+					laydate = layui.laydate,
+					layer = layui.layer,
+					laypage = layui.laypage,
+					element = layui.element();
+		
+			});
+		</script>
+	</body>
+</html>

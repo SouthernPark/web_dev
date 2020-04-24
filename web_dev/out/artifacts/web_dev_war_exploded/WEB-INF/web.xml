@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+
+    <servlet>
+        <servlet-name>residentLoginServlet </servlet-name>
+        <servlet-class>com.qf.servlet.ResidentLoginServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>residentLoginServlet</servlet-name>
+        <url-pattern>/residentLoginServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>residentRegisterServlet </servlet-name>
+        <servlet-class>com.qf.servlet.ResidentRegisterServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>residentRegisterServlet</servlet-name>
+        <url-pattern>/residentRegisterServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>testServlet </servlet-name>
+        <servlet-class>com.qf.servlet.TestServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>testServlet</servlet-name>
+        <url-pattern>/testServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>serviceSQLServlet </servlet-name>
+        <servlet-class>com.qf.servlet.ServiceSQLServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>serviceSQLServlet </servlet-name>
+        <url-pattern>/serviceSQLServlet </url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>residentSQLServlet </servlet-name>
+        <servlet-class>com.qf.servlet.ResidentSQLServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>residentSQLServlet </servlet-name>
+        <url-pattern>/residentSQLServlet </url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>staffSQLServlet </servlet-name>
+        <servlet-class>com.qf.servlet.StaffSQLServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>staffSQLServlet </servlet-name>
+        <url-pattern>/staffSQLServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>driverSQLServlet </servlet-name>
+        <servlet-class>com.qf.servlet.DriverSQLServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>driverSQLServlet </servlet-name>
+        <url-pattern>/driverSQLServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>billSQLServlet </servlet-name>
+        <servlet-class>com.qf.servlet.BillSQLServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>billSQLServlet </servlet-name>
+        <url-pattern>/billSQLServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>vehicleSQLServlet </servlet-name>
+        <servlet-class>com.qf.servlet.VehicleSQLServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>vehicleSQLServlet </servlet-name>
+        <url-pattern>/vehicleSQLServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>driverLoginServlet </servlet-name>
+        <servlet-class>com.qf.servlet.DriverLoginServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>driverLoginServlet </servlet-name>
+        <url-pattern>/driverLoginServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>managerLoginServlet </servlet-name>
+        <servlet-class>com.qf.servlet.ManagerLoginServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>managerLoginServlet </servlet-name>
+        <url-pattern>/managerLoginServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>routePlanServlet </servlet-name>
+        <servlet-class>com.qf.servlet.RoutePlanServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>routePlanServlet </servlet-name>
+        <url-pattern>/routePlanServlet</url-pattern>
+    </servlet-mapping>
+
+    
+    <welcome-file-list>
+        <welcome-file>residentLoginServlet</welcome-file>
+    </welcome-file-list>
+
+
+
+
+</web-app>

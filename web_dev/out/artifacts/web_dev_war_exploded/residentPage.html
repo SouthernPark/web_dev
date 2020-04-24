@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<title>Resident Page</title>
+		<link rel="stylesheet" href="./layui/css/layui.css" />
+		<link rel="stylesheet" href="./css/main.css" />
+		<link rel="stylesheet" href="./css/admin.css" />
+		<script src="./lib/vue.js"></script>
+		<link rel="stylesheet" href="./lib/bootstrap.css" />
+		<script src="./lib/vue-resource.js"></script>
+		<div id="head" class="container clear">
+			<ul class="layui-nav" style="text-align:right">
+				<!-- go to index.jsp -->
+				<!-- tool bar without index -->
+				<li class="layui-nav-item">
+					<a href="residentPage.html">HOME</a></li>
+				<!-- tool bar with two index -->
+				<li class="layui-nav-item">
+					<a>ABOUT US</a>
+					<dl class="layui-nav-child">
+						<dd><a href="aboutus.html">WHO WE ARE</a></dd>
+					</dl>
+				</li>
+				<!-- another tool bar -->
+				<li class="layui-nav-item" lay-unselect="">
+					<a>APPLY SERVICE</a>
+					<dl class="layui-nav-child">
+						<dd><a href="e-apply.html">apply for service</a></dd>
+					</dl>
+				</li>
+				<li class="layui-nav-item" >
+					<a href="http://localhost:8080/web_dev_war_exploded/residentLoginServlet?method=logout
+">LOG OUT</a></li>
+			</ul>
+		</div>
+	</head>
+	<body>
+		
+		<div id="app">
+		
+			<div >
+				<div >
+					<h1><i>My Service</i></h1><br/>
+				</div>
+		
+				<div class="panel-body form-inline">
+		
+					<br />
+					<br />
+					<hr color="#000000" />
+					<label>
+						Search:
+						<input type="text" class="form-control" v-model="keyWords" id="search" v-focus v-color="'blue'" />
+					</label>
+				</div>
+		
+			</div>
+		
+			<table class="layui-table" lay-skin="line">
+				<thead>
+					<tr>
+						<th>serviceID</th>
+						<th>serviceType</th>
+						<th>serviceDate</th>
+						<th>residentID</th>
+						<th>serviceStatus</th>
+						<th>staffNo</th>
+					</tr>
+					<tr v-for="item in search(keyWords)" :key="item.serviceID">
+						<td>{{item.serviceID}}</td>
+						<td>{{item.serviceType}}</td>
+						<td>{{item.serviceDate | dateFormat}}</td>
+						<td>{{item.residentID}}</td>
+						<td>{{item.serviceStatus}}</td>
+						<td>{{item.staffNo}}</td>
+		
+					</tr>
+		
+				</thead>
+			</table>
+		
+		</div>
+		
+		<script>
+			// 全局的过滤器，进行时间的格式化
+			Vue.filter('dateFormat', function(dateStr, pattern) {
+				// 根据给定的时间字符串，得到特定的事件
+				var dt = new Date(dateStr)
+		
+				// yyyy-mm-dd
+				var y = dt.getFullYear()
+				var m = dt.getMonth() + 1
+				var d = dt.getDate()
+		
+				//return `${y}-${m}-${d}`
+		
+				if (pattern && pattern.toLowerCase() === 'yyyy-mm-dd') {
+					return `${y}-${m}-${d}`
+				} else {
+					var hh = dt.getHours().toString().padStart(2, '0');
+					var mm = dt.getMinutes().toString().padStart(2, '0');
+					var ss = dt.getSeconds().toString().padStart(2, '0');
+		
+					return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+				}
+			})
+		
+			Vue.directive('focus', {
+				bind: function(el) {
+		
+				},
+		
+				inserted: function(el) {
+					el.focus()
+				},
+		
+				updated: function(el) {
+		
+				}
+		
+			})
+		
+		
+			Vue.directive('color', {
+		
+				bind: function(el, binding) {
+					el.style.color = binding.value
+				}
+			})
+		
+		
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					serviceID: '',
+					serviceType: '',
+					serviceDate: '',
+					residentID: '',
+					serviceStatus: '',
+					staffNo: '',
+					keyWords: '',
+					list: [{
+							serviceID: 1,
+							serviceType: 'collection',
+							serviceDate: new Date(),
+							residentID: 1,
+							serviceStatus: 'waiting',
+							staffNo: 1
+						},
+						{
+							serviceID: 2,
+							serviceType: 'recycling',
+							serviceDate: new Date(),
+							residentID: 2,
+							serviceStatus: 'waiting',
+							staffNo: 2
+						}
+					]
+				},
+		
+				created() {
+					this.getAllList()
+				},
+		
+				methods: {
+		
+					search(keyWords) {
+		
+						var newList = []
+						this.list.forEach(item => {
+							if (item.serviceType.indexOf(keyWords) != -1 || item.serviceID == keyWords) {
+								newList.push(item)
+							}
+						})
+						return newList
+		
+					},
+		
+					getAllList() {
+						this.$http.get('http://localhost:8080/web_dev_war_exploded/serviceSQLServlet?method=getServiceByEmail').then(result => {
+							this.list = result.body.message
+
+						})
+					}
+		
+				}
+		
+			})
+		</script>
+		
+		
+		
+		<script type="text/javascript" src="./layui/layui.js"></script>
+		
+		<script>
+			layui.use(['jquery', 'form', 'layer', 'laypage', 'element'], function() {
+				var $ = layui.jquery,
+					laydate = layui.laydate,
+					layer = layui.layer,
+					laypage = layui.laypage,
+					element = layui.element();
+		
+			});
+		</script>
+	</body>
+</html>

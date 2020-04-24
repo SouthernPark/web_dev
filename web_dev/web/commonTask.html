@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<title>Common Task</title>
+		<link rel="stylesheet" href="./layui/css/layui.css" />
+		<link rel="stylesheet" href="./css/main.css" />
+		<link rel="stylesheet" href="./css/admin.css" />
+		<script src="./lib/vue.js"></script>
+		<link rel="stylesheet" href="./lib/bootstrap.css" />
+		<script src="./lib/vue-resource.js"></script>
+		<div id="head" class="container clear">
+			<ul class="layui-nav" style="text-align:right">
+				<!-- go to index.jsp -->
+				<!-- tool bar without index -->
+				<li class="layui-nav-item">
+					<a href="driverPage.html">HOME</a></li>
+				<!-- tool bar with two index -->
+				<!-- another tool bar -->
+				<li class="layui-nav-item" lay-unselect="">
+					<a>ROUTE PLAN</a>
+					<dl class="layui-nav-child">
+						<dd><a href="commonTask.html">Enter The Map</a></dd>
+					</dl>
+				</li>
+				<li class="layui-nav-item">
+					<a href="http://169.197.113.180/web_dev_war_exploded/driverLoginServlet?method=logout">LOG OUT</a></li>
+			</ul>
+		</div>
+
+		<style type="text/css">
+			#right-panel {
+				font-family: 'Roboto', 'sans-serif';
+				line-height: 30px;
+				padding-left: 10px;
+			}
+
+			#right-panel select,
+			#right-panel input {
+				font-size: 15px;
+			}
+
+			#right-panel select {
+				width: 100%;
+			}
+
+			#right-panel i {
+				font-size: 12px;
+			}
+
+			html,
+			body {
+				height: 100%;
+				margin: 0;
+				padding: 0;
+			}
+
+			#map {
+				height: 100%;
+				float: left;
+				width: 70%;
+				height: 100%;
+			}
+
+			#right-panel {
+				margin: 20px;
+				border-width: 2px;
+				width: 20%;
+				height: 400px;
+				float: left;
+				text-align: left;
+				padding-top: 0;
+			}
+
+			}
+		</style>
+	</head>
+	<body>
+		<div id="map"></div>
+		<div id="right-panel">
+			<div>
+				<b>Start:</b>
+				<select id="start">
+					<option value="Liverpool Skips">Liverpool Skips</option>
+
+				</select>
+				<br>
+
+				<b>task:</b> <br>
+				<input type="text" id="txt1" v-model="task" /><br>
+
+				</select>
+				<b>End:</b>
+				<select id="end">
+					<option value="Liverpool Skips">Liverpool Skips</option>
+					
+				</select>
+				<br>
+				<input type="submit" id="submit" value="submit" @click="submit">
+			</div>
+			<div id="directions-panel"></div>
+		</div>
+
+
+		<!-- Replace the value of the key parameter with your own API key. -->
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJW4jsPlNKgv6jFm3B5Edp5ywgdqLWdmc&callback=initMap">
+		</script>
+		<script type="text/javascript" src="./js/ajax.js">
+		</script>
+
+		<script>
+			var vm = new Vue({
+				el: '#right-panel',
+				data: {
+					task: ''
+				},
+				methods: {
+					submit() {
+						var directionsService = new google.maps.DirectionsService;
+						var directionsRenderer = new google.maps.DirectionsRenderer;
+						var map = new google.maps.Map(document.getElementById('map'), {
+							zoom: 6,
+							center: {
+								lat: 41.85,
+								lng: -87.65
+							}
+						});
+						directionsRenderer.setMap(map);
+
+						// load task file
+
+						this.$http.get(
+							'http://169.197.113.180/web_dev_war_exploded/serviceSQLServlet?method=getAddressByServiceID&?serviceID=' + this.task).then(result => {
+
+							var waypts = [];
+							var taskList = result.body.message.split("|")
+							console.log(taskList)
+							for (var i = 0; i < taskList.length; i++) {
+								waypts.push({
+									location: taskList[i].toString(),
+									stopover: true
+								});
+							}
+							
+							// draw map
+							directionsService.route({
+								//origin: tempOrigin,
+								origin: document.getElementById("start").value,
+								//destination: tempEnd,
+								destination: document.getElementById("end").value,
+								waypoints: waypts,
+								optimizeWaypoints: true,
+								travelMode: 'DRIVING'
+							}, function(response, status) {
+								if (status === 'OK') {
+									directionsRenderer.setDirections(response);
+									var route = response.routes[0];
+									var summaryPanel = document.getElementById('directions-panel');
+									summaryPanel.innerHTML = '';
+									// For each route, display summary information.
+									for (var i = 0; i < route.legs.length; i++) {
+										var routeSegment = i + 1;
+										summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+											'</b><br>';
+										summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+										summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+										summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+									}
+								} else {
+									window.alert('Directions request failed due to ' + status);
+								}
+							});
+
+
+						})
+
+
+					}
+				}
+			})
+
+			function initMap() {
+				var directionsService = new google.maps.DirectionsService;
+				var directionsRenderer = new google.maps.DirectionsRenderer;
+				var map = new google.maps.Map(document.getElementById('map'), {
+					zoom: 6,
+					center: {
+						lat: 41.85,
+						lng: -87.65
+					}
+				});
+				directionsRenderer.setMap(map);
+
+				/*
+				document.getElementById('submit').addEventListener('click', function() {
+					calculateAndDisplayRoute(directionsService, directionsRenderer);
+				});
+				*/
+			}
+
+
+			function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+
+				// load task file
+				var waypts = [];
+				vm.$http.get(
+					'http://169.197.113.180/web_dev_war_exploded/serviceSQLServlet?method=getAddressByServiceID&?serviceID=' + vm.data
+					.task).then(result => {
+
+					var taskList = result.body.message.split("|")
+					console.log('taskList')
+					for (var i = 0; i < taskList.length; i++) {
+						waypts.push({
+							location: taskList[i].toString(),
+							stopover: true
+						});
+					}
+
+					// draw map
+					directionsService.route({
+						//origin: tempOrigin,
+						origin: document.getElementById("start").value,
+						//destination: tempEnd,
+						destination: document.getElementById("end").value,
+						waypoints: waypts,
+						optimizeWaypoints: true,
+						travelMode: 'DRIVING'
+					}, function(response, status) {
+						if (status === 'OK') {
+							directionsRenderer.setDirections(response);
+							var route = response.routes[0];
+							var summaryPanel = document.getElementById('directions-panel');
+							summaryPanel.innerHTML = '';
+							// For each route, display summary information.
+							for (var i = 0; i < route.legs.length; i++) {
+								var routeSegment = i + 1;
+								summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+									'</b><br>';
+								summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+								summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+								summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+							}
+						} else {
+							window.alert('Directions request failed due to ' + status);
+						}
+					});
+
+				})
+
+			}
+		</script>
+
+		<script type="text/javascript" src="./layui/layui.js"></script>
+
+		<script>
+			layui.use(['jquery', 'form', 'layer', 'laypage', 'element'], function() {
+				var $ = layui.jquery,
+					laydate = layui.laydate,
+					layer = layui.layer,
+					laypage = layui.laypage,
+					element = layui.element();
+
+			});
+		</script>
+
+	</body>
+</html>

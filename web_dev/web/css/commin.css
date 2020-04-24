@@ -1,0 +1,176 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+ul,
+ol {
+    list-style: none;
+}
+img {
+    display: block;
+}
+a {
+    text-decoration: none;
+    color: #646464
+}
+h1,
+h2,
+h3 {
+    font-size: 16px;
+}
+body {
+    font-family: Arial;
+    background-color: white;
+}
+
+.l {
+    float: left;
+}
+.r {
+    float: right;
+}
+.clear:after {
+    content: "";
+    height: 0;
+    visibility: hidden;
+    display: block;
+    clear: both
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.container-fluid {
+    width: 100%;
+    position: relative;
+}
+
+.language {
+    position: absolute;
+    top: 40px;
+    left: 30%;
+}
+.language div{box-shadow: 10px 10px 10x #888888;}
+.identity {
+    position: absolute;
+    top: 40px;
+    left: 20%;
+    border: 1px solid black;
+}
+.identity li{display: none;}
+.identity ul:first-child{ display: block;}
+
+
+
+.introduction_box {
+    border: 1px solid black;
+    width: 30%;
+    height: 300px;
+    margin-top: 10px;
+}
+
+.introduction_box h4 {
+    text-align: center;
+}
+
+.slogan {
+    text-align: center;
+    font-size: 40px;
+}
+
+.login_interface {
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.login_interface table tr td {
+    padding-left: 100px;
+}
+.login_interface table input{outline: none;}
+.login_interface table caption {
+    font-size: 20px;
+}
+
+.login_text {
+    width: 100%;
+    height: 30px;
+}
+
+#bottom {
+    height: 300px;
+}
+
+#head {}
+
+#head .head_logo {
+    width: 162px;
+    height: 44px;
+    margin-top: 19px;
+}
+
+#head .head_menu {
+    font-size: 14px;
+    line-height: 81px;
+}
+
+#head .head_menu li {
+    float: left;
+    margin-left: 40px;
+}
+
+#banner {}
+
+#banner .banner_list {
+    width: auto;
+    height: 420px;
+    position: relative;
+}
+
+#banner .banner_list li {
+    width: 100%;
+    height: 100%;
+    background: center 0 no-repeat;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    opacity: 0;
+    z-index: 1;
+}
+
+#banner .banner_list a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+#banner .banner_list li.active {
+    opacity: 1;
+    z-index: 10;
+}
+
+#banner .banner_button {
+    position: absolute;
+    width: 100%;
+    bottom: 19px;
+    z-index: 20;
+    font-size: 0;
+    text-align: center;
+}
+
+#banner .banner_button li {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid white;
+    border-radius: 50%;
+    box-sizing: border-box;
+    margin: 0 6px;
+    cursor: pointer;
+}
+
+#banner .banner_button li.active {
+    background-color: white;
+}

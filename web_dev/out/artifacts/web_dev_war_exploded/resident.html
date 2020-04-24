@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<title>Resident Table</title>
+		<link rel="stylesheet" href="./layui/css/layui.css" />
+		<link rel="stylesheet" href="./css/main.css" />
+		<link rel="stylesheet" href="./css/admin.css" />
+		<script src="./lib/vue.js"></script>
+		<link rel="stylesheet" href="./lib/bootstrap.css" />
+		<script src="./lib/vue-resource.js"></script>
+		<div id="head" class="container clear">
+			<ul class="layui-nav" style="text-align:right">
+				<!-- go to index.jsp -->
+				<!-- tool bar without index -->
+				<li class="layui-nav-item">
+					<a href="service.html">HOME</a></li>
+				<!-- tool bar with two index -->
+				<!-- another tool bar -->
+				<li class="layui-nav-item" lay-unselect="">
+					<a>TABLE</a>
+					<dl class="layui-nav-child">
+						<dd><a href="service.html">service</a></dd>
+						<dd><a href="resident.html">resident</a></dd>
+						<dd><a href="staff.html">staff</a></dd>
+						<dd><a href="vehicle.html">vehicle</a></dd>
+						<dd><a href="driver.html">driver</a></dd>
+					</dl>
+				</li>
+				<li class="layui-nav-item" >
+					<a href="http://localhost:8080/web_dev_war_exploded/managerLoginServlet?method=logout">LOG OUT</a></li>
+			</ul>
+		</div>
+	</head>
+	<body>
+
+
+
+		<div id="app">
+
+			<div >
+				<div >
+					<h1><i>resident</i></h1><br/>
+				</div>
+
+				<div class="panel-body form-inline">
+					<label>
+						Search:
+						<input type="text" class="form-control" v-model="keyWords" id="search" v-focus v-color="'blue'" />
+					</label>
+				</div>
+
+			</div>
+
+			<table class="layui-table" lay-skin="line">
+				<thead>
+					<tr>
+						<th>residentID</th>
+						<th>name</th>
+						<th>email</th>
+						<th>dateJoined</th>
+						<th>password</th>
+						<th>branchNo</th>
+						<th>address</th>
+						<th>latitude</th>
+						<th>longitude</th>
+						<th>binVolume</th>
+						<th>operation</th>
+					</tr>
+					<tr v-for="item in search(keyWords)" :key="item.residentID">
+						<td>{{item.residentID}}</td>
+						<td>{{item.name}}</td>
+						<td>{{item.email}}</td>
+						<td>{{item.dateJoined | dateFormat}}</td>
+						<td>{{item.password}}</td>
+						<td>{{item.branchNo}}</td>
+						<td>{{item.address}}</td>
+						<td>{{item.latitude}}</td>
+						<td>{{item.longitude}}</td>
+						<td>{{item.binVolume}}</td>
+						<td>
+							<a href="" @click.prevent="del(item.residentID)">delete</a>
+						</td>
+
+					</tr>
+
+				</thead>
+			</table>
+
+		</div>
+
+		<script>
+			// 全局的过滤器，进行时间的格式化
+			Vue.filter('dateFormat', function(dateStr, pattern) {
+				// 根据给定的时间字符串，得到特定的事件
+				var dt = new Date(dateStr)
+
+				// yyyy-mm-dd
+				var y = dt.getFullYear()
+				var m = dt.getMonth() + 1
+				var d = dt.getDate()
+
+				//return `${y}-${m}-${d}`
+
+				if (pattern && pattern.toLowerCase() === 'yyyy-mm-dd') {
+					return `${y}-${m}-${d}`
+				} else {
+					var hh = dt.getHours().toString().padStart(2, '0');
+					var mm = dt.getMinutes().toString().padStart(2, '0');
+					var ss = dt.getSeconds().toString().padStart(2, '0');
+
+					return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+				}
+			})
+
+			Vue.directive('focus', {
+				bind: function(el) {
+
+				},
+
+				inserted: function(el) {
+					el.focus()
+				},
+
+				updated: function(el) {
+
+				}
+
+			})
+
+
+			Vue.directive('color', {
+
+				bind: function(el, binding) {
+					el.style.color = binding.value
+				}
+			})
+
+
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					residentID: '',
+					name: '',
+					email: '',
+					dateJoined: '',
+					password: '',
+					branchNo: '',
+					address: '',
+					latitude: '',
+					longitude: '',
+					binVolume: '',
+					keyWords: '',
+					list: [
+					
+					]
+				},
+
+				created() {
+					this.getAllList()
+				},
+
+				methods: {
+
+					search(keyWords) {
+
+						var newList = []
+						this.list.forEach(item => {
+							if (item.name.indexOf(keyWords) != -1 || item.residentID == keyWords) {
+								newList.push(item)
+							}
+						})
+						return newList
+
+					},
+
+					getAllList() {
+						this.$http.get('http://localhost:8080/web_dev_war_exploded/residentSQLServlet?method=selectAll').then(result => {
+							this.list = result.body.message
+
+						})
+					},
+
+					del(id) {
+						this.$http.get('http://localhost:8080/web_dev_war_exploded/residentSQLServlet?method=delete&?residentID=' + id).then(
+							result => {
+								
+								this.getAllList()
+
+							})
+					}
+
+				}
+			})
+		</script>
+		<script type="text/javascript" src="./layui/layui.js"></script>
+		
+		<script>
+			layui.use(['jquery', 'form', 'layer', 'laypage', 'element'], function() {
+				var $ = layui.jquery,
+					laydate = layui.laydate,
+					layer = layui.layer,
+					laypage = layui.laypage,
+					element = layui.element();
+		
+			});
+		</script>
+	</body>
+</html>
