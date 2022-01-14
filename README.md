@@ -15,4 +15,5 @@ How to use our system is described in the manuals on Vital.
 Cheer.  
  
  
- 还原的时候 注意在ubuntu tomcat的lib里添加 fast_jason包, jdbc包, mysql connector包
+add fast_jason, jdbc, mysql connector
+when using it
